@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TaskFlow, Gestion de tâches Kanban</title>
+<meta name="description" content="TaskFlow, application web de gestion de tâches en mode Kanban avec glisser-déposer, priorités et sauvegarde locale.">
+<style>
+  :root {
+    --bg: #0f1420;
+    --panel: #161d2e;
+    --panel-2: #1c2540;
+    --border: #2a3454;
+    --text: #eef1f8;
+    --text-dim: #97a1bd;
+    --accent: #6c8cff;
+    --accent-2: #8f6cff;
+    --ok: #3ddc97;
+    --warn: #ffb454;
+    --danger: #ff6b81;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: radial-gradient(1200px 800px at 10% -10%, #1a2340 0%, var(--bg) 55%);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 36px; border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 20;
+    background: rgba(15, 20, 32, 0.85); backdrop-filter: blur(10px);
+  }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .logo {
+    width: 38px; height: 38px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 18px; color: #0f1420;
+    box-shadow: 0 6px 18px rgba(108,140,255,0.35);
+  }
+  .brand h1 { font-size: 19px; margin: 0; letter-spacing: 0.3px; }
+  .brand span { color: var(--text-dim); font-size: 12.5px; display: block; margin-top: 2px; }
+
+  .stats { display: flex; gap: 10px; }
+  .stat-pill {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 999px; padding: 8px 16px; font-size: 13px; color: var(--text-dim);
+  }
+  .stat-pill b { color: var(--text); }
+
+  main { padding: 30px 36px 60px; max-width: 1300px; margin: 0 auto; }
+
+  .toolbar {
+    display: flex; gap: 14px; align-items: center; margin-bottom: 24px; flex-wrap: wrap;
+  }
+  .add-form {
+    flex: 1; min-width: 260px; display: flex; gap: 10px;
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 8px; align-items: center;
+  }
+  .add-form input[type="text"] {
+    flex: 1; background: transparent; border: none; outline: none;
+    color: var(--text); font-size: 14.5px; padding: 8px 10px;
+  }
+  select {
+    background: var(--panel-2); border: 1px solid var(--border); color: var(--text);
+    border-radius: 8px; padding: 8px 10px; font-size: 13px; outline: none; cursor: pointer;
+  }
+  button.primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    border: none; color: #0f1420; font-weight: 700; padding: 10px 18px;
+    border-radius: 8px; cursor: pointer; font-size: 14px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  button.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(108,140,255,0.35); }
+  button.primary:active { transform: translateY(0); }
+
+  .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  @media (max-width: 900px) { .board { grid-template-columns: 1fr; } }
+
+  .column {
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 16px; min-height: 420px; transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .column.dragover { background: var(--panel-2); border-color: var(--accent); }
+  .column-head {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px;
+  }
+  .column-head h2 { font-size: 14.5px; margin: 0; letter-spacing: 0.4px; text-transform: uppercase; color: var(--text-dim); }
+  .count-badge {
+    background: var(--panel-2); border: 1px solid var(--border); border-radius: 999px;
+    font-size: 12px; padding: 2px 10px; color: var(--text);
+  }
+  .col-todo .column-head h2 { color: var(--warn); }
+  .col-doing .column-head h2 { color: var(--accent); }
+  .col-done .column-head h2 { color: var(--ok); }
+
+  .card {
+    background: var(--panel-2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 13px 14px; margin-bottom: 12px; cursor: grab;
+    animation: pop-in 0.25s ease;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 10px 22px rgba(0,0,0,0.35); }
+  .card.dragging { opacity: 0.4; }
+  @keyframes pop-in {
+    from { opacity: 0; transform: scale(0.9) translateY(6px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card p.title { margin: 0; font-size: 14.5px; line-height: 1.4; }
+  .priority {
+    font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+    padding: 3px 8px; border-radius: 999px; white-space: nowrap;
+  }
+  .priority.low { background: rgba(61,220,151,0.15); color: var(--ok); }
+  .priority.medium { background: rgba(255,180,84,0.15); color: var(--warn); }
+  .priority.high { background: rgba(255,107,129,0.15); color: var(--danger); }
+
+  .card-actions { display: flex; gap: 8px; margin-top: 10px; }
+  .card-actions button {
+    background: transparent; border: 1px solid var(--border); color: var(--text-dim);
+    border-radius: 6px; padding: 5px 9px; font-size: 12px; cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .card-actions button:hover { color: var(--text); border-color: var(--accent); }
+  .card-actions button.del:hover { color: var(--danger); border-color: var(--danger); }
+
+  .empty-hint {
+    color: var(--text-dim); font-size: 13px; text-align: center; padding: 30px 10px;
+    border: 1.5px dashed var(--border); border-radius: 10px;
+  }
+
+  footer { text-align: center; padding: 30px; color: var(--text-dim); font-size: 12.5px; }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo">TF</div>
+    <div>
+      <h1>TaskFlow</h1>
+      <span>Organisation de projet, mode Kanban</span>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat-pill"><b id="statTotal">0</b> tâches</div>
+    <div class="stat-pill"><b id="statDone">0</b> terminées</div>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <form class="add-form" id="addForm">
+      <input type="text" id="taskInput" placeholder="Ajouter une nouvelle tâche..." maxlength="140" required>
+      <select id="prioritySelect">
+        <option value="low">Priorité basse</option>
+        <option value="medium" selected>Priorité moyenne</option>
+        <option value="high">Priorité haute</option>
+      </select>
+      <button type="submit" class="primary">+ Ajouter</button>
+    </form>
+  </div>
+
+  <div class="board">
+    <section class="column col-todo" data-status="todo">
+      <div class="column-head">
+        <h2>À faire</h2>
+        <span class="count-badge" id="countTodo">0</span>
+      </div>
+      <div class="card-list" id="listTodo"></div>
+    </section>
+
+    <section class="column col-doing" data-status="doing">
+      <div class="column-head">
+        <h2>En cours</h2>
+        <span class="count-badge" id="countDoing">0</span>
+      </div>
+      <div class="card-list" id="listDoing"></div>
+    </section>
+
+    <section class="column col-done" data-status="done">
+      <div class="column-head">
+        <h2>Terminé</h2>
+        <span class="count-badge" id="countDone">0</span>
+      </div>
+      <div class="card-list" id="listDone"></div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  TaskFlow, projet personnel de démonstration &middot; construit en HTML, CSS et JavaScript natif &middot;
+  <a href="index.html">Retour au portfolio</a>
+</footer>
+
+<script>
+(function () {
+  const STORAGE_KEY = "taskflow_tasks_v1";
+  const lists = { todo: document.getElementById("listTodo"), doing: document.getElementById("listDoing"), done: document.getElementById("listDone") };
+  const counts = { todo: document.getElementById("countTodo"), doing: document.getElementById("countDoing"), done: document.getElementById("countDone") };
+  const columns = document.querySelectorAll(".column");
+
+  function seedTasks() {
+    return [
+      { id: crypto.randomUUID(), title: "Cadrer les maquettes de la page d'accueil", priority: "high", status: "todo" },
+      { id: crypto.randomUUID(), title: "Configurer le dépôt Git du projet", priority: "medium", status: "done" },
+      { id: crypto.randomUUID(), title: "Développer le formulaire de contact", priority: "medium", status: "doing" },
+      { id: crypto.randomUUID(), title: "Rédiger les tests unitaires", priority: "low", status: "todo" },
+    ];
+  }
+
+  function loadTasks() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return seedTasks();
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) && parsed.length ? parsed : seedTasks();
+    } catch (e) { return seedTasks(); }
+  }
+
+  let tasks = loadTasks();
+
+  function save() { localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks)); }
+
+  const priorityLabel = { low: "Basse", medium: "Moyenne", high: "Haute" };
+
+  function render() {
+    Object.values(lists).forEach(el => el.innerHTML = "");
+    const tally = { todo: 0, doing: 0, done: 0 };
+
+    tasks.forEach(task => {
+      tally[task.status]++;
+      const card = document.createElement("div");
+      card.className = "card";
+      card.draggable = true;
+      card.dataset.id = task.id;
+      card.innerHTML = `
+        <div class="card-top">
+          <p class="title">${escapeHtml(task.title)}</p>
+          <span class="priority ${task.priority}">${priorityLabel[task.priority]}</span>
+        </div>
+        <div class="card-actions">
+          ${task.status !== "todo" ? '<button data-action="back">&larr; Reculer</button>' : ""}
+          ${task.status !== "done" ? '<button data-action="forward">Avancer &rarr;</button>' : ""}
+          <button data-action="delete" class="del">Supprimer</button>
+        </div>
+      `;
+
+      card.addEventListener("dragstart", () => card.classList.add("dragging"));
+      card.addEventListener("dragend", () => card.classList.remove("dragging"));
+
+      card.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => handleAction(task.id, btn.dataset.action));
+      });
+
+      lists[task.status].appendChild(card);
+    });
+
+    Object.keys(tally).forEach(status => counts[status].textContent = tally[status]);
+    document.getElementById("statTotal").textContent = tasks.length;
+    document.getElementById("statDone").textContent = tally.done;
+
+    Object.entries(lists).forEach(([status, el]) => {
+      if (!el.children.length) {
+        const hint = document.createElement("div");
+        hint.className = "empty-hint";
+        hint.textContent = "Aucune tâche ici pour le moment.";
+        el.appendChild(hint);
+      }
+    });
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  const order = ["todo", "doing", "done"];
+  function handleAction(id, action) {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+    if (action === "delete") {
+      tasks = tasks.filter(t => t.id !== id);
+    } else {
+      const idx = order.indexOf(task.status);
+      const nextIdx = action === "forward" ? Math.min(idx + 1, order.length - 1) : Math.max(idx - 1, 0);
+      task.status = order[nextIdx];
+    }
+    save();
+    render();
+  }
+
+  columns.forEach(col => {
+    col.addEventListener("dragover", e => {
+      e.preventDefault();
+      col.classList.add("dragover");
+    });
+    col.addEventListener("dragleave", () => col.classList.remove("dragover"));
+    col.addEventListener("drop", e => {
+      e.preventDefault();
+      col.classList.remove("dragover");
+      const dragging = document.querySelector(".card.dragging");
+      if (!dragging) return;
+      const task = tasks.find(t => t.id === dragging.dataset.id);
+      if (task) {
+        task.status = col.dataset.status;
+        save();
+        render();
+      }
+    });
+  });
+
+  document.getElementById("addForm").addEventListener("submit", e => {
+    e.preventDefault();
+    const input = document.getElementById("taskInput");
+    const priority = document.getElementById("prioritySelect").value;
+    const title = input.value.trim();
+    if (!title) return;
+    tasks.push({ id: crypto.randomUUID(), title, priority, status: "todo" });
+    input.value = "";
+    save();
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jospin Faleti, Software Engineer</title>
+<meta name="description" content="Jospin Faleti, Software Engineer. Web and mobile developer based in Benin, portfolio of projects and experience.">
+<style>
+  :root {
+    --bg: #0b0e17;
+    --bg-2: #10152280;
+    --panel: #131826;
+    --border: #232b40;
+    --text: #eef1f8;
+    --text-dim: #9aa3bd;
+    --accent: #6c8cff;
+    --accent-2: #35d0ba;
+    --radius: 18px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    line-height: 1.5;
+  }
+  a { color: inherit; }
+  section { padding: 90px 8vw; max-width: 1180px; margin: 0 auto; }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* Nav */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 8vw; background: rgba(11,14,23,0.75); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo { font-weight: 800; font-size: 17px; letter-spacing: 0.3px; }
+  .logo span { color: var(--accent); }
+  nav { display: flex; gap: 28px; font-size: 14px; color: var(--text-dim); }
+  nav a { text-decoration: none; transition: color 0.2s ease; }
+  nav a:hover { color: var(--text); }
+  .nav-cta {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    color: #0b0e17; font-weight: 700; padding: 9px 18px; border-radius: 999px;
+    text-decoration: none; font-size: 13.5px;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    padding-top: 90px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ""; position: absolute; top: -200px; right: -150px; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(108,140,255,0.22), transparent 65%);
+    filter: blur(10px); pointer-events: none;
+  }
+  .hero::after {
+    content: ""; position: absolute; bottom: -250px; left: -150px; width: 550px; height: 550px;
+    background: radial-gradient(circle, rgba(53,208,186,0.16), transparent 65%);
+    pointer-events: none;
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px; width: fit-content;
+    background: var(--panel); border: 1px solid var(--border); border-radius: 999px;
+    padding: 7px 16px; font-size: 12.5px; color: var(--text-dim); margin-bottom: 22px;
+  }
+  .eyebrow .pulse {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--accent-2);
+    box-shadow: 0 0 0 0 rgba(53,208,186,0.5); animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(53,208,186,0.5); }
+    70% { box-shadow: 0 0 0 9px rgba(53,208,186,0); }
+    100% { box-shadow: 0 0 0 0 rgba(53,208,186,0); }
+  }
+  .hero h1 {
+    font-size: clamp(38px, 6vw, 66px); margin: 0 0 16px; letter-spacing: -1.5px; max-width: 850px;
+  }
+  .hero h1 .grad {
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p.lead { color: var(--text-dim); font-size: 18px; max-width: 620px; margin: 0 0 34px; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary, .btn-ghost {
+    padding: 13px 26px; border-radius: 10px; font-size: 14.5px; font-weight: 700;
+    text-decoration: none; transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #0b0e17; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(108,140,255,0.3); }
+  .btn-ghost { border: 1px solid var(--border); color: var(--text); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+  .scroll-cue {
+    position: absolute; bottom: 34px; left: 8vw; font-size: 12px; color: var(--text-dim);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .scroll-cue .line { width: 26px; height: 1px; background: var(--text-dim); animation: slide 1.6s infinite; }
+  @keyframes slide { 0%,100% { transform: translateX(0); opacity: 0.4; } 50% { transform: translateX(6px); opacity: 1; } }
+
+  /* Section headers */
+  .sec-label { font-size: 12.5px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent); font-weight: 700; margin-bottom: 10px; }
+  .sec-title { font-size: 30px; margin: 0 0 40px; letter-spacing: -0.5px; }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 50px; align-items: start; }
+  @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-grid p { color: var(--text-dim); font-size: 15.5px; margin-bottom: 16px; }
+  .fact-list { display: flex; flex-direction: column; gap: 16px; }
+  .fact {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px;
+  }
+  .fact b { display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .fact span { font-size: 14.5px; }
+
+  /* Skills */
+  .skill-groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 22px; }
+  .skill-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+  .skill-card h3 { margin: 0 0 14px; font-size: 15px; color: var(--accent-2); }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tag {
+    background: #1b2236; border: 1px solid var(--border); border-radius: 999px;
+    padding: 6px 13px; font-size: 12.5px; color: var(--text-dim);
+    transition: all 0.15s ease;
+  }
+  .tag:hover { color: var(--text); border-color: var(--accent); transform: translateY(-2px); }
+
+  /* Experience timeline */
+  .timeline { position: relative; padding-left: 26px; border-left: 2px solid var(--border); }
+  .tl-item { position: relative; padding-bottom: 36px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-dot {
+    position: absolute; left: -32px; top: 4px; width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 4px rgba(108,140,255,0.18);
+  }
+  .tl-date { font-size: 12.5px; color: var(--accent-2); font-weight: 700; margin-bottom: 6px; }
+  .tl-item h3 { margin: 0 0 4px; font-size: 17px; }
+  .tl-item .org { color: var(--text-dim); font-size: 13.5px; margin-bottom: 8px; }
+  .tl-item p { color: var(--text-dim); font-size: 14.5px; margin: 4px 0; }
+
+  /* Education */
+  .edu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; }
+  .edu-card { background: var(--panel); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+  .edu-card .tl-date { margin-bottom: 8px; }
+  .edu-card h3 { margin: 0 0 6px; font-size: 15.5px; }
+  .edu-card p { color: var(--text-dim); font-size: 13.5px; margin: 0; }
+
+  /* Projects */
+  .project-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 24px; }
+  .project-card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; display: flex; flex-direction: column; transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.35); }
+  .project-thumb {
+    height: 130px; display: flex; align-items: center; justify-content: center; font-size: 46px;
+  }
+  .thumb-1 { background: linear-gradient(135deg, #2a1e3d, #4a2f5e); }
+  .thumb-2 { background: linear-gradient(135deg, #1c2f4a, #2f5273); }
+  .thumb-3 { background: linear-gradient(135deg, #1c3d33, #227a5e); }
+  .thumb-4 { background: linear-gradient(135deg, #3d2a1c, #7a4e22); }
+  .project-body { padding: 20px 22px 22px; flex: 1; display: flex; flex-direction: column; }
+  .project-body .cat { font-size: 11px; color: var(--accent-2); font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; }
+  .project-body h3 { margin: 0 0 8px; font-size: 16.5px; }
+  .project-body p { color: var(--text-dim); font-size: 13.5px; flex: 1; margin: 0 0 16px; }
+  .project-link {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 700;
+    color: var(--accent); text-decoration: none;
+  }
+  .project-link.disabled { color: var(--text-dim); cursor: default; }
+
+  /* Contact */
+  .contact-box {
+    background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 44px; text-align: center;
+  }
+  .contact-box h2 { font-size: 28px; margin: 0 0 12px; }
+  .contact-box p { color: var(--text-dim); margin: 0 0 26px; }
+  .contact-links { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .contact-links a {
+    background: #1b2236; border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 20px; text-decoration: none; font-size: 14px; transition: all 0.15s ease;
+  }
+  .contact-links a:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+  footer { text-align: center; padding: 30px; color: var(--text-dim); font-size: 12.5px; border-top: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Jospin <span>Faleti</span></div>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+  </nav>
+  <a class="nav-cta" href="#contact">Contact</a>
+</header>
+
+<section class="hero">
+  <span class="eyebrow"><span class="pulse"></span> Open to remote, hybrid and on-site roles</span>
+  <h1>Software Engineer building <span class="grad">web and mobile products</span> that work in the real world.</h1>
+  <p class="lead">I'm Jospin Faleti, a software engineering student in Benin with hands-on experience in full-stack development, IT systems management, and WordPress/e-commerce solutions.</p>
+  <div class="hero-actions">
+    <a class="btn-primary" href="#projects">View my projects</a>
+    <a class="btn-ghost" href="#contact">Get in touch</a>
+  </div>
+  <div class="scroll-cue"><span class="line"></span> Scroll to explore</div>
+</section>
+
+<section id="about" class="reveal">
+  <div class="sec-label">About</div>
+  <h2 class="sec-title">Who I am</h2>
+  <div class="about-grid">
+    <div>
+      <p>I bring a solid technical foundation shaped by hands-on software engineering training in Benin and practical experience across three internships in web development and IT systems management.</p>
+      <p>My time at Digital Service Telecom and Fifa de Sainte Luce (ETE SA) helped me develop full-stack development skills, end-to-end IT operations management, and a reliable, detail-oriented way of working, often autonomously and under real business constraints.</p>
+      <p>Today, I am professionally interested in web and mobile application development, IT systems and infrastructure management, and digital commerce solutions. I thrive in roles that combine technical problem-solving, hands-on development, and clear, bilingual communication.</p>
+    </div>
+    <div class="fact-list">
+      <div class="fact"><b>Based in</b><span>Abomey-Calavi, Benin</span></div>
+      <div class="fact"><b>Education</b><span>B.Sc. Computer Software Engineering, IFRI (2023 to 2026)</span></div>
+      <div class="fact"><b>Languages</b><span>French (native), English (professional)</span></div>
+      <div class="fact"><b>Open to</b><span>Remote, hybrid, or on-site, internationally</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills" class="reveal">
+  <div class="sec-label">Skills</div>
+  <h2 class="sec-title">What I work with</h2>
+  <div class="skill-groups">
+    <div class="skill-card">
+      <h3>Programming Languages</h3>
+      <div class="tag-row">
+        <span class="tag">Java</span><span class="tag">Python</span><span class="tag">PHP</span>
+        <span class="tag">C</span><span class="tag">C++</span><span class="tag">JavaScript</span>
+        <span class="tag">HTML</span><span class="tag">CSS</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>Web &amp; Mobile</h3>
+      <div class="tag-row">
+        <span class="tag">Website design</span><span class="tag">Mobile web design</span>
+        <span class="tag">WordPress</span><span class="tag">E-commerce</span>
+        <span class="tag">JavaScript frameworks</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>Systems &amp; Data</h3>
+      <div class="tag-row">
+        <span class="tag">IT systems management</span><span class="tag">MySQL</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <h3>Other</h3>
+      <div class="tag-row">
+        <span class="tag">Freelance delivery</span><span class="tag">Bilingual FR/EN communication</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience" class="reveal">
+  <div class="sec-label">Experience</div>
+  <h2 class="sec-title">Where I've worked</h2>
+  <div class="timeline">
+    <div class="tl-item">
+      <span class="tl-dot"></span>
+      <div class="tl-date">Feb 2026 to Jul 2026</div>
+      <h3>Web Application Developer</h3>
+      <div class="org">Digital Service Telecom, Internship, Abomey-Calavi, Benin</div>
+      <p>Developed and maintained a company website and a mobile application, contributing across the full development cycle from design to deployment.</p>
+    </div>
+    <div class="tl-item">
+      <span class="tl-dot"></span>
+      <div class="tl-date">Apr 2025 to Jul 2025</div>
+      <h3>IT Systems Manager</h3>
+      <div class="org">Digital Service Telecom, Internship, Abomey-Calavi, Benin</div>
+      <p>Managed the company's IT systems and supported website development, handling day-to-day technical operations to keep systems running reliably.</p>
+    </div>
+    <div class="tl-item">
+      <span class="tl-dot"></span>
+      <div class="tl-date">Aug 2024 to Oct 2024</div>
+      <h3>Web &amp; IT Management Intern</h3>
+      <div class="org">Fifa de Sainte Luce (ETE SA), Internship, Cotonou, Benin</div>
+      <p>Managed the company's website and IT operations end to end, handling technical support and coordination across office tools and systems.</p>
+    </div>
+  </div>
+</section>
+
+<section id="education" class="reveal">
+  <div class="sec-label">Education</div>
+  <h2 class="sec-title">Academic background</h2>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="tl-date">2023 to 2026</div>
+      <h3>B.Sc., Computer Software Engineering</h3>
+      <p>Institut de Formation et de Recherche en Informatique (IFRI)</p>
+    </div>
+    <div class="edu-card">
+      <div class="tl-date">2025</div>
+      <h3>English Language Studies</h3>
+      <p>Université d'Abomey-Calavi / Wikilingo</p>
+    </div>
+    <div class="edu-card">
+      <div class="tl-date">2021</div>
+      <h3>Baccalauréat, Série C (Science / Mathematics)</h3>
+      <p>Lycée Phiromce Gbagoudo, Abomey-Calavi</p>
+    </div>
+    <div class="edu-card">
+      <div class="tl-date">2022 to 2023</div>
+      <h3>Cybersecurity (ICDL Africa) &amp; WordPress Certificate (Learnio)</h3>
+      <p>Certifications in cybersecurity fundamentals and WordPress site building.</p>
+    </div>
+  </div>
+</section>
+
+<section id="projects" class="reveal">
+  <div class="sec-label">Projects</div>
+  <h2 class="sec-title">Selected work</h2>
+  <div class="project-grid">
+    <div class="project-card">
+      <div class="project-thumb thumb-1">🖨️</div>
+      <div class="project-body">
+        <div class="cat">Automation &middot; Python</div>
+        <h3>Product Poster Generator</h3>
+        <p>An automated pipeline for a Dell hardware reseller: HTML/CSS templates rendered to PNG via headless Chrome, automatic product photo cutout, and dynamic templating from a product catalog.</p>
+        <span class="project-link disabled">Internal client tool</span>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-thumb thumb-2">🍽️</div>
+      <div class="project-body">
+        <div class="cat">Web Design &middot; JavaScript</div>
+        <h3>Pino Restau, Restaurant Website</h3>
+        <p>A full restaurant website with an interactive menu, shopping cart, gallery, reviews and a reservation flow, built with SEO structured data.</p>
+        <a class="project-link" href="pino-restau-site.html" target="_blank">View project →</a>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-thumb thumb-3">🛒</div>
+      <div class="project-body">
+        <div class="cat">E-commerce &middot; JavaScript</div>
+        <h3>NovaTech Store</h3>
+        <p>A tech accessories storefront with category filtering, a persistent cart drawer, quantity controls and local storage, built without external dependencies.</p>
+        <a class="project-link" href="technova-shop.html" target="_blank">View project →</a>
+      </div>
+    </div>
+    <div class="project-card">
+      <div class="project-thumb thumb-4">🗂️</div>
+      <div class="project-body">
+        <div class="cat">Productivity &middot; JavaScript</div>
+        <h3>TaskFlow, Kanban Board</h3>
+        <p>A drag-and-drop task manager with priority levels, live progress counters and local storage persistence.</p>
+        <a class="project-link" href="taskflow-app.html" target="_blank">View project →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="reveal">
+  <div class="contact-box">
+    <h2>Let's work together</h2>
+    <p>Open to remote, hybrid, or on-site software engineering roles.</p>
+    <div class="contact-links">
+      <a href="mailto:jospinfaleti1@gmail.com">✉️ jospinfaleti1@gmail.com</a>
+      <a href="tel:+2290154263266">📞 +229 0154263266</a>
+      <a href="https://www.linkedin.com/in/jospin-faleti-9a6a0124a" target="_blank">🔗 LinkedIn Profile</a>
+    </div>
+  </div>
+</section>
+
+<footer>Jospin Faleti, Software Engineer &middot; Portfolio built with HTML, CSS and JavaScript</footer>
+
+<script>
+  const revealEls = document.querySelectorAll(".reveal");
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+</body>
+</html>
