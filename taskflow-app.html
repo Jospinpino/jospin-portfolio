@@ -82,6 +82,15 @@
   .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
   @media (max-width: 900px) { .board { grid-template-columns: 1fr; } }
 
+  @media (max-width: 640px) {
+    header { padding: 16px 20px; flex-wrap: wrap; gap: 10px; }
+    main { padding: 22px 20px 50px; }
+    .add-form { flex-wrap: wrap; }
+    .add-form input[type="text"] { flex-basis: 100%; }
+    select { flex: 1; }
+    button.primary { flex-shrink: 0; }
+  }
+
   .column {
     background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius);
     padding: 16px; min-height: 420px; transition: background 0.2s ease, border-color 0.2s ease;
