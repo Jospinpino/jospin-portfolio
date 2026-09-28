@@ -2,6 +2,8 @@
 
 Outil en ligne de commande, 100% hors ligne, qui évalue la solidité d'un mot de passe : longueur, variété de caractères, présence dans une liste de mots de passe courants, séquences évidentes ("1234", "qwerty") et répétitions.
 
+9 tests unitaires (`python -m unittest test_checker.py`, tous passent).
+
 Aucune requête réseau n'est effectuée et le mot de passe n'est jamais écrit sur le disque.
 
 ## Utilisation (saisie masquée, recommandée)
