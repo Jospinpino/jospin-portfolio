@@ -2,7 +2,7 @@
 
 import unittest
 
-from checker import analyze, has_repeated_run, has_sequence
+from checker import analyze, charset_size, has_repeated_run, has_sequence
 
 
 class AnalyzeTests(unittest.TestCase):
@@ -45,6 +45,14 @@ class AnalyzeTests(unittest.TestCase):
     def test_sequence_password_is_penalized(self):
         result = analyze("Abcdef1234!!")
         self.assertTrue(any("sequence" in issue for issue in result["issues"]))
+
+    def test_charset_size_counts_character_classes(self):
+        self.assertEqual(charset_size("abc"), 26)
+        self.assertEqual(charset_size("ABC"), 26)
+        self.assertEqual(charset_size("123"), 10)
+        self.assertEqual(charset_size("!@#"), 33)
+        self.assertEqual(charset_size("aB1!"), 26 + 26 + 10 + 33)
+        self.assertEqual(charset_size(""), 1)
 
 
 if __name__ == "__main__":
