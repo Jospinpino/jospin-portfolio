@@ -156,12 +156,15 @@
   }
   .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,0.35); }
   .project-thumb {
-    height: 130px; display: flex; align-items: center; justify-content: center; font-size: 46px;
+    height: 170px; display: flex; align-items: center; justify-content: center; font-size: 46px;
+    position: relative; overflow: hidden;
   }
+  .project-thumb.slideshow img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top;
+    opacity: 0; transition: opacity 1s ease;
+  }
+  .project-thumb.slideshow img.active { opacity: 1; }
   .thumb-1 { background: linear-gradient(135deg, #2a1e3d, #4a2f5e); }
-  .thumb-2 { background: linear-gradient(135deg, #1c2f4a, #2f5273); }
-  .thumb-3 { background: linear-gradient(135deg, #1c3d33, #227a5e); }
-  .thumb-4 { background: linear-gradient(135deg, #3d2a1c, #7a4e22); }
   .thumb-5 { background: linear-gradient(135deg, #1f3d2a, #2f7a4e); }
   .thumb-6 { background: linear-gradient(135deg, #3d2a3d, #6e2f7a); }
   .thumb-7 { background: linear-gradient(135deg, #3d1c1c, #7a2f2f); }
@@ -385,7 +388,11 @@
       </div>
     </div>
     <div class="project-card">
-      <div class="project-thumb thumb-2">🍽️</div>
+      <div class="project-thumb slideshow" data-interval="3200">
+        <img src="screenshots/restau-1.jpg" alt="Pino Restau — page d'accueil" class="active">
+        <img src="screenshots/restau-2.jpg" alt="Pino Restau — menu avec onglets de catégories">
+        <img src="screenshots/restau-3.jpg" alt="Pino Restau — cave à vins">
+      </div>
       <div class="project-body">
         <div class="cat">Conception web &middot; JavaScript</div>
         <h3>Pino Restau, site web de restaurant</h3>
@@ -394,7 +401,10 @@
       </div>
     </div>
     <div class="project-card">
-      <div class="project-thumb thumb-3">🛒</div>
+      <div class="project-thumb slideshow" data-interval="3200">
+        <img src="screenshots/shop-1.jpg" alt="NovaTech Store — catalogue" class="active">
+        <img src="screenshots/shop-2.jpg" alt="NovaTech Store — panier latéral">
+      </div>
       <div class="project-body">
         <div class="cat">E-commerce &middot; JavaScript</div>
         <h3>NovaTech Store</h3>
@@ -403,7 +413,10 @@
       </div>
     </div>
     <div class="project-card">
-      <div class="project-thumb thumb-4">🗂️</div>
+      <div class="project-thumb slideshow" data-interval="3200">
+        <img src="screenshots/taskflow-1.jpg" alt="TaskFlow — tableau Kanban" class="active">
+        <img src="screenshots/taskflow-2.jpg" alt="TaskFlow — tableau avec plusieurs tâches">
+      </div>
       <div class="project-body">
         <div class="cat">Productivité &middot; JavaScript</div>
         <h3>TaskFlow, tableau Kanban</h3>
@@ -484,6 +497,28 @@
     });
   }, { threshold: 0.15 });
   revealEls.forEach(el => io.observe(el));
+</script>
+<script>
+  (function () {
+    if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    document.querySelectorAll(".project-thumb.slideshow").forEach(function (el) {
+      var imgs = el.querySelectorAll("img");
+      if (imgs.length < 2) return;
+      var i = 0;
+      var delay = parseInt(el.getAttribute("data-interval"), 10) || 3500;
+      var timer = null;
+      function next() {
+        imgs[i].classList.remove("active");
+        i = (i + 1) % imgs.length;
+        imgs[i].classList.add("active");
+      }
+      function start() { timer = setInterval(next, delay); }
+      function stop() { clearInterval(timer); }
+      start();
+      el.addEventListener("mouseenter", stop);
+      el.addEventListener("mouseleave", start);
+    });
+  })();
 </script>
 </body>
 </html>
