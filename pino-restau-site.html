@@ -2669,7 +2669,7 @@
   .add-cart-btn { transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease; }
   .add-cart-btn:active { transform: scale(0.96); }
 
-  .features, .story, #gallery, #testimonials, #faq, .info-bar, #contact, footer {
+  .trust-strip, #menu, .features, .story, #gallery, #testimonials, #faq, .info-bar, #contact, footer {
     --bg: #e8f4fc;
     --bg-raised: #ffffff;
     --text: #0b1f33;
@@ -2681,10 +2681,10 @@
     background: var(--bg);
     color: var(--text);
   }
+  .trust-strip, .info-bar { background: var(--bg-raised); }
   .features .feature-card { background: var(--bg-raised); }
   .features .feature-icon { background: rgba(10, 110, 189, 0.1); }
-  .features .feature-card:hover, .testimonial-card:hover { border-color: rgba(10, 110, 189, 0.45); }
-  .info-bar { background: var(--bg-raised); }
+  .dish-card:hover, .features .feature-card:hover, .testimonial-card:hover { border-color: rgba(10, 110, 189, 0.45); }
   #contact .btn-primary { background: var(--accent); color: #ffffff; }
   #contact .btn-primary:hover { box-shadow: 0 10px 22px rgba(10, 110, 189, 0.35); }
   .res-form input:focus, .res-form textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(10, 110, 189, 0.18); }
