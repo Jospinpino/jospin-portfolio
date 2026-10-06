@@ -7,8 +7,8 @@
 <meta name="description" content="Pino Restau, restaurant de cuisine béninoise au quartier Tankpè, Abomey-Calavi. Poisson braisé, riz au gras, brochettes grillées et plus. Réservez par email ou WhatsApp.">
 <meta name="keywords" content="Pino Restau, restaurant Abomey-Calavi, restaurant Tankpè, cuisine béninoise, restaurant Bénin, poisson braisé, riz au gras">
 <meta name="robots" content="index, follow">
-<meta name="theme-color" content="#17140f">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2317140f'/%3E%3Ctext x='32' y='45' font-family='Georgia, serif' font-style='italic' font-size='36' fill='%23c9a35f' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#072b1a">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23072b1a'/%3E%3Ctext x='32' y='45' font-family='Georgia, serif' font-style='italic' font-size='36' fill='%23f5c518' text-anchor='middle'%3EP%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="restaurant">
 <meta property="og:title" content="Pino Restau, cuisine béninoise à Abomey-Calavi">
 <meta property="og:description" content="Restaurant de cuisine béninoise au quartier Tankpè, Abomey-Calavi. Réservez votre table par email ou WhatsApp.">
@@ -47,82 +47,31 @@
 </script>
 <style>
   :root {
-    --plum-950: #17140f;
-    --plum-900: #211d16;
-    --plum-800: #2b2620;
-    --gold-500: #9c7a3c;
-    --gold-300: #c9a35f;
-    --basil-600: #2f4a35;
-    --paper-100: #f6efe2;
-    --paper-50: #fbf8f2;
-    --ink-900: #17140f;
-    --ink-700: #5a5247;
-    --rule: rgba(23, 20, 15, 0.14);
+    --plum-950: #072b1a;
+    --plum-900: #0b3a24;
+    --plum-800: #11492e;
+    --gold-500: #e0a800;
+    --gold-300: #f5c518;
+    --basil-600: #0b7a43;
+    --paper-100: #fffdf6;
+    --paper-50: #ffffff;
+    --ink-900: #0d1f16;
+    --ink-700: #46564c;
+    --rule: rgba(13, 31, 22, 0.14);
 
     --bg: var(--paper-100);
     --bg-raised: var(--paper-50);
     --text: var(--ink-900);
     --text-soft: var(--ink-700);
-    --accent: #8a5a1f;
-    --accent-strong: #6b4517;
-    --secondary: var(--basil-600);
+    --accent: #0b7a43;
+    --accent-strong: #08592f;
+    --secondary: #1a9a5a;
     --hero-bg: var(--plum-950);
-    --hero-text: var(--paper-100);
-    --hero-text-soft: #c9c0ae;
+    --hero-text: #ffffff;
+    --hero-text-soft: #cfe6d8;
     --card-border: var(--rule);
-    --on-accent: var(--paper-50);
-    --on-secondary: var(--paper-50);
-    --map-filter: none;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #15120d;
-      --bg-raised: #1f1b15;
-      --text: #f0ece2;
-      --text-soft: #c9c0ae;
-      --accent: var(--gold-300);
-      --accent-strong: var(--gold-500);
-      --secondary: #6f8f72;
-      --hero-bg: #0f0c08;
-      --hero-text: #f6efe2;
-      --hero-text-soft: #c9c0ae;
-      --card-border: rgba(246, 239, 226, 0.14);
-      --on-accent: var(--ink-900);
-      --on-secondary: var(--ink-900);
-      --map-filter: invert(92%) hue-rotate(180deg) contrast(0.9) brightness(0.95);
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #15120d;
-    --bg-raised: #1f1b15;
-    --text: #f0ece2;
-    --text-soft: #c9c0ae;
-    --accent: var(--gold-300);
-    --accent-strong: var(--gold-500);
-    --secondary: #6f8f72;
-    --hero-bg: #0f0c08;
-    --hero-text: #f6efe2;
-    --hero-text-soft: #c9c0ae;
-    --card-border: rgba(246, 239, 226, 0.14);
-    --on-accent: var(--ink-900);
-    --on-secondary: var(--ink-900);
-    --map-filter: invert(92%) hue-rotate(180deg) contrast(0.9) brightness(0.95);
-  }
-  :root[data-theme="light"] {
-    --bg: var(--paper-100);
-    --bg-raised: var(--paper-50);
-    --text: var(--ink-900);
-    --text-soft: var(--ink-700);
-    --accent: #8a5a1f;
-    --accent-strong: #6b4517;
-    --secondary: var(--basil-600);
-    --hero-bg: var(--plum-950);
-    --hero-text: var(--paper-100);
-    --hero-text-soft: #c9c0ae;
-    --card-border: var(--rule);
-    --on-accent: var(--paper-50);
-    --on-secondary: var(--paper-50);
+    --on-accent: #ffffff;
+    --on-secondary: #ffffff;
     --map-filter: none;
   }
 
@@ -146,7 +95,7 @@
 
   .hero {
     background:
-      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(156,122,60,0.20), transparent 60%),
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(224,168,0,0.20), transparent 60%),
       var(--hero-bg);
     color: var(--hero-text);
     padding: 88px 8vw 96px;
@@ -224,7 +173,7 @@
   }
   .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 22px rgba(156,122,60,0.35);
+    box-shadow: 0 10px 22px rgba(224,168,0,0.35);
   }
   .btn-ghost {
     border-color: rgba(246,237,228,0.4);
@@ -324,7 +273,7 @@
     transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
   .category-tabs a:hover {
-    border-color: rgba(156,122,60,0.5);
+    border-color: rgba(224,168,0,0.5);
     color: var(--text);
   }
   .category-tabs a.active {
@@ -379,7 +328,7 @@
   }
   .dish-card:hover {
     box-shadow: 0 24px 44px rgba(0,0,0,0.42);
-    border-color: rgba(156,122,60,0.55);
+    border-color: rgba(224,168,0,0.55);
   }
   .dish-card::before {
     content: "";
@@ -477,7 +426,7 @@
   .testimonial-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 16px 30px rgba(0,0,0,0.32);
-    border-color: rgba(156,122,60,0.4);
+    border-color: rgba(224,168,0,0.4);
   }
   .testimonial-card .stars {
     color: var(--gold-300);
@@ -513,13 +462,13 @@
   .feature-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 16px 30px rgba(0,0,0,0.28);
-    border-color: rgba(156,122,60,0.4);
+    border-color: rgba(224,168,0,0.4);
   }
   .feature-icon {
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: rgba(156,122,60,0.12);
+    background: rgba(224,168,0,0.12);
     color: var(--accent-strong);
     display: flex;
     align-items: center;
@@ -648,7 +597,7 @@
   }
   .res-form input:focus, .res-form textarea:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(156,122,60,0.18);
+    box-shadow: 0 0 0 3px rgba(224,168,0,0.18);
   }
   .res-form textarea { resize: vertical; min-height: 80px; }
   .res-actions {
@@ -810,8 +759,8 @@
 
   .ticker {
     background: var(--plum-900);
-    border-top: 1px solid rgba(156,122,60,0.25);
-    border-bottom: 1px solid rgba(156,122,60,0.25);
+    border-top: 1px solid rgba(224,168,0,0.25);
+    border-bottom: 1px solid rgba(224,168,0,0.25);
     overflow: hidden;
     padding: 14px 0;
   }
@@ -1090,7 +1039,7 @@
   }
   .cart-mini-form input:focus, .cart-mini-form select:focus, .cart-mini-form textarea:focus {
     border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(156,122,60,0.18);
+    box-shadow: 0 0 0 3px rgba(224,168,0,0.18);
   }
   .cart-actions { display: flex; flex-direction: column; gap: 10px; }
   .cart-actions .btn { width: 100%; justify-content: center; }
@@ -1188,7 +1137,7 @@
     top: 0;
     z-index: 90;
     background: var(--hero-bg);
-    border-bottom: 1px solid rgba(156,122,60,0.22);
+    border-bottom: 1px solid rgba(224,168,0,0.22);
     box-shadow: 0 8px 24px rgba(0,0,0,0.25);
   }
   .site-nav-inner {
@@ -1243,7 +1192,7 @@
   }
   .site-nav-icon-btn:hover {
     border-color: var(--gold-300);
-    background: rgba(156,122,60,0.12);
+    background: rgba(224,168,0,0.12);
   }
   .site-nav-cart-badge {
     position: absolute;
@@ -1292,7 +1241,7 @@
     padding: 8px 8vw 20px;
     gap: 4px;
     background: var(--hero-bg);
-    border-top: 1px solid rgba(156,122,60,0.18);
+    border-top: 1px solid rgba(224,168,0,0.18);
   }
   .site-nav-mobile a {
     color: var(--hero-text);
@@ -2134,8 +2083,8 @@
         var t = p.life / p.maxLife;
         var alpha = Math.sin(Math.PI * t) * 0.16;
         var grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
-        grad.addColorStop(0, 'rgba(201,163,95,' + alpha + ')');
-        grad.addColorStop(1, 'rgba(201,163,95,0)');
+        grad.addColorStop(0, 'rgba(245,197,24,' + alpha + ')');
+        grad.addColorStop(1, 'rgba(245,197,24,0)');
         ctx.fillStyle = grad;
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -2649,7 +2598,7 @@
   .lightbox {
     position: fixed;
     inset: 0;
-    background: rgba(12, 8, 24, 0.92);
+    background: rgba(7, 43, 26, 0.94);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2719,6 +2668,34 @@
   .btn-primary:active { transform: translateY(0) scale(0.97); }
   .add-cart-btn { transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease; }
   .add-cart-btn:active { transform: scale(0.96); }
+
+  .features, .story, #gallery, #testimonials, #faq, .info-bar, #contact, footer {
+    --bg: #e8f4fc;
+    --bg-raised: #ffffff;
+    --text: #0b1f33;
+    --text-soft: #46596b;
+    --accent: #0a6ebd;
+    --accent-strong: #07508a;
+    --card-border: rgba(11, 31, 51, 0.14);
+    --on-accent: #ffffff;
+    background: var(--bg);
+    color: var(--text);
+  }
+  .features .feature-card { background: var(--bg-raised); }
+  .features .feature-icon { background: rgba(10, 110, 189, 0.1); }
+  .features .feature-card:hover, .testimonial-card:hover { border-color: rgba(10, 110, 189, 0.45); }
+  .info-bar { background: var(--bg-raised); }
+  #contact .btn-primary { background: var(--accent); color: #ffffff; }
+  #contact .btn-primary:hover { box-shadow: 0 10px 22px rgba(10, 110, 189, 0.35); }
+  .res-form input:focus, .res-form textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(10, 110, 189, 0.18); }
+  footer {
+    --bg: #0a2a4a;
+    --bg-raised: #0a2a4a;
+    --text: #ffffff;
+    --text-soft: #cfe3f3;
+    --accent-strong: #ffd34d;
+    --card-border: rgba(255, 255, 255, 0.2);
+  }
 </style>
 
 <div class="lightbox" id="lightbox" aria-hidden="true">
