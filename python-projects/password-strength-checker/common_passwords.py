@@ -1,8 +1,6 @@
-"""A small offline list of very common passwords, used to flag obviously weak choices.
+"""Une petite liste hors ligne des mots de passe les plus courants, utilisée pour détecter les choix manifestement faibles.
 
-This is a short educational sample, not an exhaustive breach database. The
-checker never sends the password anywhere, it only compares it locally
-against this list.
+Il s'agit d'un échantillon éducatif succinct, et non d'une base de données exhaustive de mots de passe compromis. Le vérificateur n'envoie jamais le mot de passe ailleurs : il le compare uniquement, en local, avec cette liste.
 """
 
 COMMON_PASSWORDS = {
