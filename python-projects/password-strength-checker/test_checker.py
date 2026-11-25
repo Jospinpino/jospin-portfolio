@@ -1,52 +1,53 @@
-"""Unit tests for the password strength analyzer."""
+"""Tests unitaires pour l'analyseur de robustesse des mots de passe."""
 
 import unittest
 
 from checker import analyze, charset_size, has_repeated_run, has_sequence
 
 
-class AnalyzeTests(unittest.TestCase):
-    def test_empty_password(self):
-        result = analyze("")
-        self.assertEqual(result["score"], 0)
-        self.assertEqual(result["label"], "Empty")
+class TestsAnalyse(unittest.TestCase):
 
-    def test_common_password_scores_zero(self):
-        result = analyze("password1")
-        self.assertEqual(result["score"], 0)
+    def test_mot_de_passe_vide(self):
+        resultat = analyze("")
+        self.assertEqual(resultat["score"], 0)
+        self.assertEqual(resultat["label"], "Empty")
+
+    def test_mot_de_passe_courant_score_zero(self):
+        resultat = analyze("password1")
+        self.assertEqual(resultat["score"], 0)
         self.assertIn(
             "This is one of the most common passwords in use, avoid it entirely.",
-            result["issues"],
+            resultat["issues"],
         )
 
-    def test_short_password_flagged(self):
-        result = analyze("aB1!")
-        self.assertIn("Shorter than 8 characters.", result["issues"])
+    def test_mot_de_passe_court_signale(self):
+        resultat = analyze("aB1!")
+        self.assertIn("Shorter than 8 characters.", resultat["issues"])
 
-    def test_missing_character_classes_flagged(self):
-        result = analyze("alllowercase")
-        self.assertIn("No uppercase letters.", result["issues"])
-        self.assertIn("No digits.", result["issues"])
-        self.assertIn("No symbols.", result["issues"])
+    def test_absence_de_categories_de_caracteres(self):
+        resultat = analyze("alllowercase")
+        self.assertIn("No uppercase letters.", resultat["issues"])
+        self.assertIn("No digits.", resultat["issues"])
+        self.assertIn("No symbols.", resultat["issues"])
 
-    def test_strong_password_scores_high(self):
-        result = analyze("Tr@ns!tGiraffe94Kite")
-        self.assertGreaterEqual(result["score"], 5)
-        self.assertEqual(result["issues"], [])
+    def test_mot_de_passe_robuste_obtient_un_bon_score(self):
+        resultat = analyze("Tr@ns!tGiraffe94Kite")
+        self.assertGreaterEqual(resultat["score"], 5)
+        self.assertEqual(resultat["issues"], [])
 
-    def test_sequence_detected(self):
+    def test_detection_de_sequence(self):
         self.assertTrue(has_sequence("myqwerty99"))
         self.assertFalse(has_sequence("Tr@ns!tGiraffe94"))
 
-    def test_repeated_run_detected(self):
+    def test_detection_de_caracteres_repetes(self):
         self.assertTrue(has_repeated_run("aaaa1234"))
         self.assertFalse(has_repeated_run("abab1234"))
 
-    def test_sequence_password_is_penalized(self):
-        result = analyze("Abcdef1234!!")
-        self.assertTrue(any("sequence" in issue for issue in result["issues"]))
+    def test_mot_de_passe_avec_sequence_est_penalise(self):
+        resultat = analyze("Abcdef1234!!")
+        self.assertTrue(any("sequence" in probleme for probleme in resultat["issues"]))
 
-    def test_charset_size_counts_character_classes(self):
+    def test_calcul_taille_ensemble_caracteres(self):
         self.assertEqual(charset_size("abc"), 26)
         self.assertEqual(charset_size("ABC"), 26)
         self.assertEqual(charset_size("123"), 10)
